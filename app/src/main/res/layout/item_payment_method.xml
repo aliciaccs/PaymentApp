@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <ImageView
+        android:id="@+id/img_payment_method"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/img_noimg"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+    <TextView
+        android:id="@+id/tvt_payment_method_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="Payment Method"
+        android:layout_marginRight="10dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="22sp"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/separator"
+        android:layout_below="@+id/container"
+        android:layout_width="match_parent"
+        android:background="@android:color/darker_gray"
+        android:layout_height="1dp" />
+</RelativeLayout>

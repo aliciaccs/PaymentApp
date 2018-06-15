@@ -1,5 +1,7 @@
 package com.amaita.paymentapp.data.network;
 
+import android.content.Context;
+
 import com.amaita.paymentapp.data.network.api.PaymentServiceApi;
 import com.amaita.paymentapp.utils.GlobalCustom;
 
@@ -17,9 +19,26 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PaymentWebClient {
 
     private PaymentServiceApi apiService;
+    private Retrofit retrofit;
 
-    public PaymentWebClient () {
-        Retrofit retrofit = createRetrofit();
+
+    // For Singleton instantiation
+    private static final Object LOCK = new Object();
+    private static volatile PaymentWebClient sInstance;
+
+    public static PaymentWebClient getInstance() {
+        if (sInstance == null) {
+            synchronized (LOCK) {
+                if (sInstance == null) {
+                    sInstance = new PaymentWebClient();
+                }
+            }
+        }
+        return sInstance;
+    }
+
+    private PaymentWebClient () {
+        retrofit = createRetrofit();
         apiService =  retrofit.create(PaymentServiceApi.class);
     }
 
@@ -63,6 +82,9 @@ public class PaymentWebClient {
     }
 
 
+    public Retrofit getRetrofit() {
+        return retrofit;
+    }
     private Retrofit createRetrofit() {
         return new Retrofit.Builder()
                 .baseUrl(GlobalCustom.BASE_URL_WS)

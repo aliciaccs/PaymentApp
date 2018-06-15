@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">PaymentApp</string>
     <string name="action_settings">Settings</string>
+    <string name="amount_header">Bienvenidos a PaymentApp</string>
+    <string name="amount_intro">Por favor, introduzca el monto a pagar:</string>
+    <string name="tv_amount_payment">Monto a pagar:</string>
+    <string name="method_explanation">Seleccione su metodo de pago:</string>
 </resources>
