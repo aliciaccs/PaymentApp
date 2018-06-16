@@ -4,5 +4,7 @@
     <string name="amount_header">Bienvenidos a PaymentApp</string>
     <string name="amount_intro">Por favor, introduzca el monto a pagar:</string>
     <string name="tv_amount_payment">Monto a pagar:</string>
-    <string name="method_explanation">Seleccione su metodo de pago:</string>
+    <string name="method_explanation">Seleccione su método de pago:</string>
+    <string name="issuer_explanation">Seleccione el Banco de su método de pago:</string>
+    <string name="method_selected">Método de pago seleccionado:</string>
 </resources>

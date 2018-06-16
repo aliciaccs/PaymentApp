@@ -4,6 +4,8 @@ import android.arch.lifecycle.LiveData;
 
 import com.amaita.paymentapp.data.database.PaymentDao;
 import com.amaita.paymentapp.data.network.PaymentNetworkDataSource;
+import com.amaita.paymentapp.data.network.response.CardIssuer;
+import com.amaita.paymentapp.data.network.response.PayerCost;
 import com.amaita.paymentapp.data.network.response.PaymentMethod;
 
 import java.util.ArrayList;
@@ -36,9 +38,20 @@ public class PaymentRepository {
         return sInstance;
     }
 
-    public LiveData<List<PaymentMethod>> getPaymentMethods () {
-        LiveData<List<PaymentMethod>> methods = webClient.getDowloadedMethods();
+    public LiveData<List<PaymentMethod>> getPaymentMethods (double amount) {
+        LiveData<List<PaymentMethod>> methods = webClient.getDowloadedMethods(amount);
         return methods;
     }
+
+    public LiveData<List<CardIssuer>> getIssuers (String paymentMethodID) {
+        LiveData<List<CardIssuer>> issuers = webClient.getDowloadedCardIssuers(paymentMethodID);
+        return issuers;
+    }
+
+    public LiveData<List<PayerCost>> getInstalmments (String paymentMethodID, String cardIssuer, double amount) {
+        LiveData<List<PayerCost>> installments = webClient.getDowloadedInstallments(paymentMethodID,cardIssuer,amount);
+        return installments;
+    }
+
 
 }

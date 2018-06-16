@@ -41,4 +41,6 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     annotationProcessor "android.arch.lifecycle:compiler:$lifecycle_version"
 
+    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
+
 }

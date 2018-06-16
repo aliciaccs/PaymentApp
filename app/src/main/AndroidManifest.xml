@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".ui.AmountActivity" android:windowSoftInputMode="adjustResize"></activity>
         <activity android:name=".ui.PaymentMethodsActivity"></activity>
+        <activity android:name=".ui.CardIssuersActivity"></activity>
+        <activity android:name=".ui.InstallmentsActivity"></activity>
     </application>
 
 </manifest>
