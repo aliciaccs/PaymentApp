@@ -32,6 +32,10 @@ public class PaymentMethodsViewModel extends ViewModel {
 
     }
 
+    public void clearMethods () {
+        mRepository.clearMethods();
+    }
+
 
 }
 

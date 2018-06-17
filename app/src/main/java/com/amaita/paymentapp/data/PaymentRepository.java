@@ -58,6 +58,9 @@ public class PaymentRepository {
         webClient.clearIssuer();
     }
 
+    public void clearMethods () {
+        webClient.clearMethods();
+    }
 
     public List<CardIssuer> getIssuersForValidation (String paymentMethodID) {
         return webClient.getIssuers(paymentMethodID);

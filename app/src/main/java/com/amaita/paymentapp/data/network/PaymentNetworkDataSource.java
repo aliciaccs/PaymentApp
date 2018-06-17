@@ -165,6 +165,9 @@ public class PaymentNetworkDataSource {
         mDownloadedCardIssuers.postValue(new ArrayList<CardIssuer>());
     }
 
+    public void  clearMethods () {
+        mDownloadedMethods.postValue(new ArrayList<PaymentMethod>());
+    }
     public List<CardIssuer> getIssuers (String paymentMethodId) {
         List<CardIssuer> issuers = null;
         try {

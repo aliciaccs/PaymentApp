@@ -74,6 +74,20 @@ public class CardIssuersActivity extends AppCompatActivity implements CardIssuer
         progressBar.setVisibility(View.VISIBLE);
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(GlobalCustom.PAYMENT_IN_CONSTRUCTION,payment);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        payment = savedInstanceState.getParcelable(GlobalCustom.PAYMENT_IN_CONSTRUCTION);
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

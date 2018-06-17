@@ -99,6 +99,12 @@ public class PaymentMethodsActivity extends AppCompatActivity implements  Paymen
         rv_paymentmethods.setAdapter(mAdapter);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mViewModel.clearMethods();
+    }
+
     public void goToNextActivity (View view) {
 
         progressBar.setVisibility(View.VISIBLE);
