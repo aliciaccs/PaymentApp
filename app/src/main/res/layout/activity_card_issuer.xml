@@ -88,7 +88,7 @@
         android:layout_margin="10dp"
         style="@style/ButtonStyle"
         android:text="Continuar"
-        android:onClick="goToInstallments"
+        android:onClick="goToNextActivity"
         android:enabled="false"
         />
 </RelativeLayout>

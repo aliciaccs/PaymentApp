@@ -2,6 +2,7 @@ package com.amaita.paymentapp.data;
 
 import android.arch.lifecycle.LiveData;
 
+import com.amaita.paymentapp.data.database.Payment;
 import com.amaita.paymentapp.data.database.PaymentDao;
 import com.amaita.paymentapp.data.network.PaymentNetworkDataSource;
 import com.amaita.paymentapp.data.network.response.CardIssuer;
@@ -53,5 +54,20 @@ public class PaymentRepository {
         return installments;
     }
 
+    public void clearIssuer () {
+        webClient.clearIssuer();
+    }
 
+
+    public List<CardIssuer> getIssuersForValidation (String paymentMethodID) {
+        return webClient.getIssuers(paymentMethodID);
+    }
+
+    public LiveData<List<Payment>> getPayments () {
+        return paymentDao.getPayments();
+    }
+
+    public void savePayment (Payment payment) {
+        paymentDao.bulkInsert(payment);
+    }
 }

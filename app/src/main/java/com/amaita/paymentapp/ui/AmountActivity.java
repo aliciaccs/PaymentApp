@@ -34,7 +34,7 @@ public class AmountActivity extends AppCompatActivity {
         btn_next = findViewById(R.id.btn_next);
 
         if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey("paymentInConstruction")) {
+            if (savedInstanceState.containsKey(GlobalCustom.PAYMENT_IN_CONSTRUCTION)) {
                 payment = (PaymentInConstruction) savedInstanceState.get(GlobalCustom.PAYMENT_IN_CONSTRUCTION);
             } else {
                 payment = new PaymentInConstruction();
@@ -77,7 +77,7 @@ public class AmountActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        payment = savedInstanceState.getParcelable("paymentInConstruction");
+        payment = savedInstanceState.getParcelable(GlobalCustom.PAYMENT_IN_CONSTRUCTION);
     }
 
     public void goToPaymentMethods (View view) {

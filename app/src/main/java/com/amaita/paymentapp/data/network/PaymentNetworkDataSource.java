@@ -12,6 +12,7 @@ import com.amaita.paymentapp.data.network.response.PaymentMethod;
 import com.amaita.paymentapp.utils.APIError;
 import com.amaita.paymentapp.utils.ErrorUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -157,5 +158,21 @@ public class PaymentNetworkDataSource {
     public LiveData<List<PayerCost>> getDowloadedInstallments(String paymentMethodId, String cardIssuer, double amount) {
         startFetchInstallments (paymentMethodId, cardIssuer, amount);
         return mDownloadedInstallments;
+    }
+
+    public void  clearIssuer () {
+        mDownloadedInstallments.postValue(new ArrayList<PayerCost>());
+        mDownloadedCardIssuers.postValue(new ArrayList<CardIssuer>());
+    }
+
+    public List<CardIssuer> getIssuers (String paymentMethodId) {
+        List<CardIssuer> issuers = null;
+        try {
+        Call<List<CardIssuer>> call = mExecutors.getApiService().getCardIssuers(paymentMethodId);
+        issuers = call.execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return issuers;
     }
 }

@@ -1,5 +1,6 @@
 package com.amaita.paymentapp.ui;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -9,15 +10,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.amaita.paymentapp.R;
+import com.amaita.paymentapp.data.network.response.CardIssuer;
 import com.amaita.paymentapp.data.network.response.PaymentMethod;
 import com.amaita.paymentapp.ui.adapters.PaymentMethodsAdapter;
 import com.amaita.paymentapp.ui.viewmodel.PaymentMethodsViewModel;
 import com.amaita.paymentapp.ui.viewmodel.PaymentMethodsViewModelFactory;
+import com.amaita.paymentapp.utils.AppExecutors;
 import com.amaita.paymentapp.utils.GlobalCustom;
 import com.amaita.paymentapp.utils.InjectorUtils;
 import com.amaita.paymentapp.utils.PaymentInConstruction;
@@ -28,15 +31,17 @@ public class PaymentMethodsActivity extends AppCompatActivity implements  Paymen
 
     private RecyclerView rv_paymentmethods;
     private PaymentMethodsAdapter mAdapter;
+    private TextView title;
+    private Button btn_next;
     //view Model
     private PaymentMethodsViewModel mViewModel;
+
     private ProgressBar progressBar;
-    private TextView txt_amount_payment;
     private PaymentInConstruction payment;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payment_methods);
+        setContentView(R.layout.activity_list);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(GlobalCustom.PAYMENT_IN_CONSTRUCTION)) {
@@ -48,13 +53,12 @@ public class PaymentMethodsActivity extends AppCompatActivity implements  Paymen
             payment = getIntent().getParcelableExtra(GlobalCustom.PAYMENT_IN_CONSTRUCTION);
         }
 
-
-        payment.setAmount(payment.getAmount());
-
-        rv_paymentmethods =  findViewById(R.id.rv_paymentmethods);
+        rv_paymentmethods =  findViewById(R.id.rv_list);
         progressBar =  findViewById(R.id.progressBar);
-        txt_amount_payment = findViewById(R.id.txt_amount_payment);
+        title = findViewById(R.id.title);
+        btn_next = findViewById(R.id.btn_next);
 
+        title.setText(R.string.method_explanation);
         progressBar.setVisibility(View.VISIBLE);
         //get the viewModel from the factory
         PaymentMethodsViewModelFactory factory = InjectorUtils.providePaymentMethodsViewModelFactory(this );
@@ -67,9 +71,13 @@ public class PaymentMethodsActivity extends AppCompatActivity implements  Paymen
                     setMethodsAdapter(methods);
             }
         });
-        txt_amount_payment.setText(String.valueOf (payment.getAmount()));
     }
 
+    /**
+     * onSaveInstanceState y onRestoreInstanceState se utilizan para no perder
+     * la informacion del pago a crear si la aplicacion es cerrada por el SO
+     * @param outState
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -87,8 +95,39 @@ public class PaymentMethodsActivity extends AppCompatActivity implements  Paymen
     public void setMethodsAdapter (List<PaymentMethod> methods) {
         GridLayoutManager layoutManager = new GridLayoutManager(this,1,GridLayoutManager.VERTICAL,false);
         rv_paymentmethods.setLayoutManager(layoutManager);
-        mAdapter = new PaymentMethodsAdapter(methods,this);
+        mAdapter = new PaymentMethodsAdapter(this,methods,this);
         rv_paymentmethods.setAdapter(mAdapter);
+    }
+
+    public void goToNextActivity (View view) {
+
+        progressBar.setVisibility(View.VISIBLE);
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                if (!payment.getMethod_id().isEmpty()) {
+                    final boolean methodHasIssuers = mViewModel.validateIssuers(payment.getMethod_id());
+                        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                progressBar.setVisibility(View.GONE);
+                                if (methodHasIssuers) {
+                                    Intent intent = new Intent(PaymentMethodsActivity.this, CardIssuersActivity.class);
+                                    intent.putExtra(GlobalCustom.PAYMENT_IN_CONSTRUCTION, payment);
+                                    startActivity(intent);
+                                } else {
+                                    Intent intent = new Intent(PaymentMethodsActivity.this, InstallmentsActivity.class);
+                                    intent.putExtra(GlobalCustom.PAYMENT_IN_CONSTRUCTION, payment);
+                                    startActivity(intent);
+
+                                }
+                            }
+                        });
+
+                }
+            }
+        });
     }
 
 
@@ -98,13 +137,12 @@ public class PaymentMethodsActivity extends AppCompatActivity implements  Paymen
         payment.setMethod_id(method.getId());
         payment.setMethod_name(method.getName());
         payment.setMethod_url_thumbnail(method.getThumbnail());
-        Intent intent = new Intent(this,CardIssuersActivity.class);
-        intent.putExtra("payment_method_id",method.getId());
-        intent.putExtra("payment_method_name",method.getName());
-        intent.putExtra("amount",txt_amount_payment.getText());
-        intent.putExtra("payment",payment);
-        startActivity(intent);
+        btn_next.setEnabled(true);
+
     }
+
+
+
 }
 
 

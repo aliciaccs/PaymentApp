@@ -6,6 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.amaita.paymentapp.data.PaymentRepository;
+import com.amaita.paymentapp.data.network.response.CardIssuer;
 import com.amaita.paymentapp.data.network.response.PaymentMethod;
 
 import java.util.List;
@@ -25,6 +26,11 @@ public class PaymentMethodsViewModel extends ViewModel {
         return methods;
     }
 
+    public boolean validateIssuers (String paymentMethodID) {
+        List<CardIssuer> data = mRepository.getIssuersForValidation(paymentMethodID);
+        return data.size() > 0;
+
+    }
 
 
 }

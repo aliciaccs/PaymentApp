@@ -6,5 +6,9 @@
     <string name="tv_amount_payment">Monto a pagar:</string>
     <string name="method_explanation">Seleccione su método de pago:</string>
     <string name="issuer_explanation">Seleccione el Banco de su método de pago:</string>
+    <string name="installment_explanation">Seleccione en cuantas cuotas deseas pagar:</string>
+    <string name="payments_explanation">Pagos registrados hasta al momento:</string>
     <string name="method_selected">Método de pago seleccionado:</string>
+    <string name="total_value">Monto Total: %.2f</string>
+    <string name="payment_created">Su pago fue procesado. El Metodo procesado: %1$s . Banco %2$s . Cuotas: %3$s  Monto Total: %4$f</string>
 </resources>

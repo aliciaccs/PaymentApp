@@ -18,12 +18,15 @@ public class CardIssuersViewModel extends ViewModel {
     public CardIssuersViewModel (PaymentRepository repository, String paymentMethodID) {
         this.mRepository = repository;
         this.paymentMethodID = paymentMethodID;
-        this.issuers = new MutableLiveData<>();
+        this.issuers = mRepository.getIssuers(paymentMethodID);
     }
 
     public LiveData<List<CardIssuer>> getIssuers () {
-        issuers = mRepository.getIssuers(paymentMethodID);
         return issuers;
+    }
+
+    public void clearIssuers () {
+        mRepository.clearIssuer();
     }
 
 }

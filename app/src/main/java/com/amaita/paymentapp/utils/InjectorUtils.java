@@ -9,6 +9,8 @@ import com.amaita.paymentapp.data.network.PaymentWebClient;
 import com.amaita.paymentapp.ui.viewmodel.CardIssuersViewModelFactory;
 import com.amaita.paymentapp.ui.viewmodel.InstallmentsViewModeFactory;
 import com.amaita.paymentapp.ui.viewmodel.InstallmentsViewModel;
+import com.amaita.paymentapp.ui.viewmodel.MainViewModel;
+import com.amaita.paymentapp.ui.viewmodel.MainViewModelFactory;
 import com.amaita.paymentapp.ui.viewmodel.PaymentMethodsViewModelFactory;
 
 public class InjectorUtils {
@@ -35,5 +37,13 @@ public class InjectorUtils {
     public static InstallmentsViewModeFactory provideInstallmentViewModelFactory (Context context, String paymentMethodId, String cardIssuer, double amount) {
         PaymentRepository repository = provideRepository(context.getApplicationContext());
         return new InstallmentsViewModeFactory(repository, paymentMethodId, cardIssuer,amount);
+
+    }
+
+
+
+    public static MainViewModelFactory provideMainViewModelFactory (Context context) {
+        PaymentRepository repository = provideRepository(context.getApplicationContext());
+        return new MainViewModelFactory(repository);
     }
 }
